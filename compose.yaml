@@ -1,0 +1,7 @@
+﻿services:
+  chromehistoryanalyzer:
+    image: chromehistoryanalyzer
+    build:
+      context: .
+      dockerfile: ChromeHistoryAnalyzer/Dockerfile
+

@@ -1,0 +1,77 @@
+@model IEnumerable<ChromeHistoryAnalyzer.Models.ChromeUrl>
+
+@{
+    ViewData["Title"] = "Поисковые запросы";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-4">
+                <i class="bi bi-search"></i> Поисковые запросы
+            </h1>
+            <p class="text-muted">Топ-100 самых популярных поисковых запросов</p>
+        </div>
+    </div>
+
+    <!-- Быстрая навигация -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="btn-group" role="group">
+                <a asp-action="Index" class="btn btn-outline-primary">
+                    <i class="bi bi-list-ul"></i> Все записи
+                </a>
+                <a asp-action="TopSearches" class="btn btn-outline-primary active">
+                    <i class="bi bi-search"></i> Поисковые запросы
+                </a>
+                <a asp-action="MostVisited" class="btn btn-outline-primary">
+                    <i class="bi bi-star"></i> Часто посещаемые
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @{
+            var rank = 1;
+        }
+        @foreach (var url in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">
+                                <span class="badge bg-secondary me-2">#@rank</span>
+                                @(string.IsNullOrEmpty(url.Title) ? "Без заголовка" : 
+                                  (url.Title.Length > 60 ? url.Title.Substring(0, 60) + "..." : url.Title))
+                            </h5>
+                            <span class="badge bg-primary">@url.VisitCount</span>
+                        </div>
+                        <p class="card-text small text-muted mb-2">
+                            <a href="@url.Url" target="_blank" class="text-decoration-none">
+                                @(url.Url?.Length > 80 ? url.Url.Substring(0, 80) + "..." : url.Url)
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </p>
+                        @if (url.LastVisitDateTime.HasValue)
+                        {
+                            <small class="text-muted">
+                                <i class="bi bi-clock"></i> 
+                                @url.LastVisitDateTime.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                            </small>
+                        }
+                    </div>
+                </div>
+            </div>
+            rank++;
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Поисковые запросы не найдены
+        </div>
+    }
+</div>
