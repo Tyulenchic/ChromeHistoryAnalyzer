@@ -44,7 +44,7 @@
                             <h5 class="card-title mb-0">
                                 <span class="badge bg-secondary me-2">#@rank</span>
                                 @(string.IsNullOrEmpty(url.Title) ? "Без заголовка" : 
-                                  (url.Title.Length > 60 ? url.Title.Substring(0, 60) + "..." : url.Title))
+                                  (url.Title.Length > 60 ? url.Title.Substring(0, 60) + "..." : url.Title)) 
                             </h5>
                             <span class="badge bg-primary">@url.VisitCount</span>
                         </div>
